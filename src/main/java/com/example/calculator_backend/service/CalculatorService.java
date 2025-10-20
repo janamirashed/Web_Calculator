@@ -20,6 +20,18 @@ public class CalculatorService {
 
             ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
             Object result = engine.eval(expression);
+
+            if(result == null) {
+                return "E";
+            }
+            String str = result.toString();
+            if(str.equals("Infinity") || str.equals("NaN")) {
+                return "E";
+            } else {
+                return str;
+            }
+        } catch (ScriptException e) {
+            return "E";
         }
     }
 }
