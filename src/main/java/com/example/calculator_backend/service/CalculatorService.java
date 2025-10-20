@@ -24,12 +24,15 @@ public class CalculatorService {
             if(result == null) {
                 return "E";
             }
+
             String str = result.toString();
+
             if(str.equals("Infinity") || str.equals("NaN")) {
                 return "E";
             } else {
                 return str;
             }
+
         } catch (ScriptException e) {
             return "E";
         }
