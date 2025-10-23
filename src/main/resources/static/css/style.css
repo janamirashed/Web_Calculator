@@ -37,6 +37,19 @@ body {
     margin-top: 7px;
 }
 
+.display {
+    font-size: 36px;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    font-weight: 600;
+    color: #2d3838;
+    letter-spacing: 1px;
+    text-align: right;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .circles-container {
     margin-top: 20px;
     display: grid;
