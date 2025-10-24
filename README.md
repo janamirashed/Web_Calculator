@@ -115,20 +115,6 @@ Calculator_Backend/
 └── README.md
 ```
 
-## 🧪 Testing
-For detailed test cases, see [TEST_CASES.md](TEST_CASES.md)
-
-## 📸 Screenshots
-
-### Calculator Interface
-![Calculator Interface](screenshots/calculator-ui.png)
-
-### Basic Operations
-![Basic Operations](screenshots/basic-operations.png)
-
-### Error Handling
-![Error Display](screenshots/error-handling.png)
-
 ## 🎯 Future Enhancements
 
 - [ ] Add keyboard support
