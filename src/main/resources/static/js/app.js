@@ -2,14 +2,12 @@ angular.module('calculatorApp', [])
     .controller('CalculatorController', function($http) {
         var vm = this;
 
-        // Initialize calculator state
         vm.displayValue = '0';
         vm.currentExpression = '';
         vm.shouldResetDisplay = false;
         vm.lastResult = null;
         vm.waitingForOperand = false;
 
-        // Handle all button clicks
         vm.handleButtonClick = function(button) {
             switch(button) {
                 case 'C':
@@ -59,7 +57,6 @@ angular.module('calculatorApp', [])
             }
         };
 
-        // Clear the calculator
         vm.clear = function() {
             vm.displayValue = '0';
             vm.currentExpression = '';
@@ -68,7 +65,6 @@ angular.module('calculatorApp', [])
             vm.waitingForOperand = false;
         };
 
-        // Backspace function
         vm.backspace = function() {
             if (vm.shouldResetDisplay) {
                 return;
@@ -80,7 +76,6 @@ angular.module('calculatorApp', [])
             }
         };
 
-        // Append value to display (numbers and decimal point only)
         vm.appendToDisplay = function(value) {
             if (vm.shouldResetDisplay) {
                 vm.displayValue = '';
@@ -99,7 +94,6 @@ angular.module('calculatorApp', [])
             vm.waitingForOperand = false;
         };
 
-        // Handle operator buttons
         vm.handleOperator = function(operator) {
             // Convert display operators to backend-friendly format
             var backendOp = operator;
@@ -121,7 +115,6 @@ angular.module('calculatorApp', [])
             vm.shouldResetDisplay = true;
         };
 
-        // Toggle positive/negative
         vm.toggleSign = function() {
             if (vm.displayValue !== '0' && vm.displayValue !== 'E') {
                 if (vm.displayValue.charAt(0) === '-') {
@@ -132,7 +125,6 @@ angular.module('calculatorApp', [])
             }
         };
 
-        // Calculate reciprocal
         vm.reciprocal = function() {
             var value = parseFloat(vm.displayValue);
             if (value === 0) {
@@ -145,13 +137,11 @@ angular.module('calculatorApp', [])
             vm.sendCalculation(expression);
         };
 
-        // Calculate square
         vm.square = function() {
             var expression = vm.displayValue + '*' + vm.displayValue;
             vm.sendCalculation(expression);
         };
 
-        // Calculate square root
         vm.squareRoot = function() {
             var value = parseFloat(vm.displayValue);
             if (value < 0) {
@@ -160,31 +150,25 @@ angular.module('calculatorApp', [])
                 return;
             }
 
-            // For square root, we need to send a special request or compute client-side
             vm.displayValue = Math.sqrt(value).toString();
             vm.currentExpression = '';
             vm.shouldResetDisplay = true;
         };
 
-        // Calculate percentage
         vm.percentage = function() {
             var value = parseFloat(vm.displayValue);
             vm.displayValue = (value / 100).toString();
         };
 
-        // Send calculation to backend
         vm.calculate = function() {
             if (vm.currentExpression === '' || vm.waitingForOperand) {
-                // No expression to calculate or operator was last pressed
                 return;
             }
 
-            // Complete the expression with the current display value
             var expression = vm.currentExpression + vm.displayValue;
             vm.sendCalculation(expression);
         };
 
-        // Helper function to send calculation request
         vm.sendCalculation = function(expression) {
             var calculationRequest = {
                 expression: expression

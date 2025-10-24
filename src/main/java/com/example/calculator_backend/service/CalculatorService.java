@@ -12,18 +12,14 @@ public class CalculatorService {
                 return "E";
             }
 
-            // Clean the expression
             expression = expression.trim();
 
-            // Evaluate the expression
             double result = evaluateExpression(expression);
 
-            // Check for invalid results
             if(Double.isInfinite(result) || Double.isNaN(result)) {
                 return "E";
             }
 
-            // Format the result
             if(result == (long) result) {
                 return String.valueOf((long) result);
             } else {
@@ -36,41 +32,33 @@ public class CalculatorService {
     }
 
     private double evaluateExpression(String expression) {
-        // Remove spaces
         expression = expression.replaceAll("\\s+", "");
 
-        // Stacks for numbers and operators
         Stack<Double> numbers = new Stack<>();
         Stack<Character> operators = new Stack<>();
 
         for (int i = 0; i < expression.length(); i++) {
             char c = expression.charAt(i);
 
-            // If current character is a number or decimal point
             if (Character.isDigit(c) || c == '.') {
                 StringBuilder sb = new StringBuilder();
-                // Handle multi-digit numbers and decimals
                 while (i < expression.length() &&
                         (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.')) {
                     sb.append(expression.charAt(i++));
                 }
-                i--; // Step back one position
+                i--;
                 numbers.push(Double.parseDouble(sb.toString()));
             }
-            // If current character is an opening parenthesis
             else if (c == '(') {
                 operators.push(c);
             }
-            // If current character is a closing parenthesis
             else if (c == ')') {
                 while (operators.peek() != '(') {
                     numbers.push(applyOperation(operators.pop(), numbers.pop(), numbers.pop()));
                 }
-                operators.pop(); // Remove '('
+                operators.pop();
             }
-            // If current character is an operator
             else if (c == '+' || c == '-' || c == '*' || c == '/') {
-                // Handle negative numbers at the start or after an operator
                 if (c == '-' && (i == 0 || expression.charAt(i-1) == '(' ||
                         expression.charAt(i-1) == '+' || expression.charAt(i-1) == '-' ||
                         expression.charAt(i-1) == '*' || expression.charAt(i-1) == '/')) {
@@ -86,7 +74,6 @@ public class CalculatorService {
                     continue;
                 }
 
-                // Process operators based on precedence
                 while (!operators.empty() && hasPrecedence(c, operators.peek())) {
                     numbers.push(applyOperation(operators.pop(), numbers.pop(), numbers.pop()));
                 }
@@ -94,7 +81,6 @@ public class CalculatorService {
             }
         }
 
-        // Apply remaining operations
         while (!operators.empty()) {
             numbers.push(applyOperation(operators.pop(), numbers.pop(), numbers.pop()));
         }
